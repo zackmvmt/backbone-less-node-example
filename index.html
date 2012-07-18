@@ -1,0 +1,148 @@
+<html>
+
+	<head>
+	
+		<title>Contact Book - Backbone & LESS</title>
+		
+		<!-- Custom LESS stylesheet -->
+		<link rel="stylesheet/less" type="text/css" href="style.less">
+		
+		<!-- jQuery -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		
+		<!-- Backbone and Underscore -->
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+		
+		<!-- LESS -->
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.3.0/less-1.3.0.min.js"></script>
+		
+		<!-- Underscore Templates -->
+		<script type="text/template" id="app_template">
+		
+			<h1>Contact Book</h1>
+			<div class="btn" id="add">+ add new</div>
+			
+			<ul id="people"></ul>
+			<div class="clear"></div>
+		
+		</script>
+		
+		<script type="text/javascript">
+			$(function() {
+			
+				// define the model that we will be using
+				window.Person = Backbone.Model.extend({
+				
+					// set some defaults for when we make a new person
+					defaults: {
+						first_name:		'',
+						last_name:		'',
+						phone_number:	'',
+						notes:			''
+					}
+				
+				});
+				
+				
+				// define a collection of people (like an array)
+				window.People = Backbone.Model.extend({
+					
+					// we are going to use the above-defigned model type
+					model: Person,
+					
+					// this is the base url for all of the ajax calls
+					url: 'http://localhost:8000/api/people'
+					
+				});
+				
+				
+				// define a view to represent the whole application
+				window.App = Backbone.View.extend({
+				
+					// assign the view to an element in the html and a template
+					el: '#wrapper',
+					template: _.template($('#app_template').html()),
+					
+					// make a new collecion for this view
+					collection: new People,
+					
+					// this happend anytime we make a new Contacts view
+					initialize: function() {
+						
+						// whenever we reset the information in the collection, we want to redraw it
+						this.collection.bind('reset', this.render, this);
+						
+						// get all of the information from the server into the collection
+						this.collection.fetch();
+						
+					},
+					
+					// this function draws out the content
+					render: function() {
+						
+						// loop through all of the models in the collection
+						_.each(this.collection.models, function(person) {
+						
+							console.log(person.get('first_name'));
+						
+						}, this);
+						
+						// good practice is to always return the view for chainable calls
+						return this;
+						
+					}
+				
+				});
+				
+				
+				// make a new application view to start the app
+				$.app = new App();
+			
+			});
+		</script>
+		
+	</head>
+	
+	<body>
+	
+		<div id="wrapper">
+		
+			<h1>Contact Book</h1>
+		
+			<div class="btn" id="add">+ add new</div>
+	
+			<ul id="people">
+				<li>
+					<div class="image"></div>
+					<h3 class="name">Zack Stickles</h3>
+					<div class="phone">444-444-4444</div>
+					<p class="notes">It's me!</p>
+					<div class="btn edit">edit</div>
+					<div class="btn delete">delete</div>
+				</li>
+				<li>
+					<div class="image"></div>
+					<h3 class="name">Zack Stickles</h3>
+					<div class="phone">444-444-4444</div>
+					<p class="notes">It's me!</p>
+					<div class="btn edit">edit</div>
+					<div class="btn delete">delete</div>
+				</li>
+				<li>
+					<div class="image"></div>
+					<h3 class="name">Zack Stickles</h3>
+					<div class="phone">444-444-4444</div>
+					<p class="notes">It's me!</p>
+					<div class="btn edit">edit</div>
+					<div class="btn delete">delete</div>
+				</li>
+			</ul>
+			
+			<div class="clear"></div>
+		
+		</div>
+		
+	</body>
+	
+</html>

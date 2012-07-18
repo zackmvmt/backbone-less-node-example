@@ -1,0 +1,106 @@
+// --------- VARIABLES ---------\\
+
+@color_bg: #F5F5F5;
+@color_fg: #FFF;
+@color_border: #E5E5E5;
+@color_link: #2596d8;
+@color_text: #333;
+@font: sans-serif;
+
+// ---------- MIXINS ---------- \\
+
+.grad(@one, @two) {
+	background-color: @one;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@one, endColorstr=@two);
+	background: -webkit-gradient(linear, left top, left bottom, from(@one), to(@two));
+	background: -moz-linear-gradient(top,  @one,  @two);
+}
+
+.rounded(@radius: 5px) {
+	-moz-border-radius: @radius;
+	-webkit-border-radius: @radius;
+	border-radius: @radius;
+}
+
+// --------- STYLES ---------- \\
+
+body {
+	font-family: @font;
+	background-color: @color_bg;
+	color: @color_text;
+}
+
+.clear {
+	clear: both;
+}
+
+.btn {
+	cursor: pointer;
+	color: @color_link;
+	&:hover {
+		color: darken(@color_link, 15%);
+		text-decoration: underline;
+	}
+}
+
+#wrapper {
+	width: 900px;
+	margin: auto;
+	background-color: @color_fg;
+	border: 1px solid @color_border;
+	position: relative;
+	h1, h2, h3 {
+		font-weight: 100;
+		margin: 0;
+	}
+	h1 {
+		margin: 10px;
+	}
+	#add {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+	ul#people {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		li {
+			float: left;
+			margin: 10px;
+			height: 130px;
+			width: (900px - 126) / 3;
+			border: 1px solid @color_border;
+			padding: 10px;
+			position: relative;
+			.grad(@color_fg, @color_bg);
+			h3 {
+				font-size: 20px;
+			}
+			.image {
+				float: left;
+				height: 100px;
+				width: 100px;
+				margin-right: 10px;
+				background-color: rgba(0, 200, 250, 0.3);
+				border: 1px solid darken(@color_border, 10%);
+			}
+			.phone {
+				font-size: 12px;
+			}
+			p.notes {
+				font-size: 14px;
+				color: lighten(@color_text, 50%);
+			}
+			.edit, .delete {
+				font-size: 14px;
+				position: absolute;
+				bottom: 10px;
+				left: 15px;
+			}
+			.delete {
+				left: 65px;
+			}
+		}
+	}
+}
